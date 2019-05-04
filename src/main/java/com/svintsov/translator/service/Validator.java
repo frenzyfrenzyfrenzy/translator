@@ -21,7 +21,7 @@ public class Validator {
 
     public List<String> validateTranslateRequest(String translateRequest) {
         try {
-            translateRequestSchema.validate(translateRequest);
+            translateRequestSchema.validate(new JSONObject(translateRequest));
         } catch (ValidationException validationException) {
             return validationException.getAllMessages();
         }

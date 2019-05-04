@@ -1,15 +1,13 @@
 package com.svintsov.translator;
 
+import com.svintsov.translator.service.LoggerFilter;
 import com.svintsov.translator.service.Validator;
 import com.svintsov.translator.service.ValidatorFilter;
-import com.svintsov.translator.service.ValidatorInterceptor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @SpringBootApplication
@@ -20,18 +18,9 @@ public class App implements WebMvcConfigurer {
         SpringApplication.run(App.class, args);
     }
 
-    public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(validatorInterceptor());
-    }
-
     @Bean
-    Validator validator() {
+    public Validator validator() {
         return new Validator();
-    }
-
-    @Bean
-    ValidatorInterceptor validatorInterceptor() {
-        return new ValidatorInterceptor(validator());
     }
 
     @Bean
@@ -40,12 +29,25 @@ public class App implements WebMvcConfigurer {
     }
 
     @Bean
+    LoggerFilter loggerFilter() {
+        return new LoggerFilter();
+    }
+
+    @Bean
     public FilterRegistrationBean<ValidatorFilter> validatorFilterBean(){
         FilterRegistrationBean<ValidatorFilter> registrationBean = new FilterRegistrationBean<>();
-
         registrationBean.setFilter(validatorFilter());
-        registrationBean.addUrlPatterns("/*");
+        registrationBean.addUrlPatterns("/translate");
+        registrationBean.setOrder(2);
+        return registrationBean;
+    }
 
+    @Bean
+    public FilterRegistrationBean<LoggerFilter> loggerFilterBean(){
+        FilterRegistrationBean<LoggerFilter> registrationBean = new FilterRegistrationBean<>();
+        registrationBean.setFilter(loggerFilter());
+        registrationBean.addUrlPatterns("/*");
+        registrationBean.setOrder(1);
         return registrationBean;
     }
 }

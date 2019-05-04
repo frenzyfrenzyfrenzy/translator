@@ -6,11 +6,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 import java.io.*;
 
-public class RequestWrapper extends HttpServletRequestWrapper {
+public class CachingRequestWrapper extends HttpServletRequestWrapper {
 
     private final String body;
 
-    public RequestWrapper(HttpServletRequest request) throws IOException
+    public CachingRequestWrapper(HttpServletRequest request) throws IOException
     {
         super(request);
 
