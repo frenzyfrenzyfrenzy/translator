@@ -1,0 +1,4 @@
+translator:
+  yandexApiUrl: https://translate.yandex.net/api/v1.5/
+  requestSchema: /schema/translateRequest.json
+  responseSchema: /schema/translateResponse.json
