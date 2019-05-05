@@ -2,9 +2,11 @@ package com.svintsov.translator.service;
 
 import com.svintsov.translator.util.CachingRequestWrapper;
 import com.svintsov.translator.util.JsonUtils;
+import com.svintsov.translator.util.LogbackDatabaseAppender;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -31,7 +33,9 @@ public class ValidatorFilter implements Filter {
         if (validationErrors == null)
             chain.doFilter(requestWrapper, response);
         else {
-            LOGGER.error("VALIDATION ERRORS: {}", JsonUtils.silentToJsonString(validationErrors));
+            String validationErrorsString = JsonUtils.silentToJsonString(validationErrors);
+            MDC.put(LogbackDatabaseAppender.ERROR, validationErrorsString);
+            LOGGER.error("VALIDATION ERRORS: {}", validationErrorsString);
             ((HttpServletResponse)response).sendError(400, JsonUtils.silentToJsonString(validationErrors));
         }
     }

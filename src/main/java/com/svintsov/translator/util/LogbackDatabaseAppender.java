@@ -13,6 +13,7 @@ public class LogbackDatabaseAppender extends UnsynchronizedAppenderBase<ILogging
 
     public static final String REQUEST = "REQUEST";
     public static final String RESPONSE = "RESPONSE";
+    public static final String ERROR = "ERROR";
     public static final String TARGET = "TARGET";
     public static final String IP = "IP";
 
