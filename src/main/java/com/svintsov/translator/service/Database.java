@@ -1,7 +1,7 @@
 package com.svintsov.translator.service;
 
 import ch.qos.logback.classic.spi.ILoggingEvent;
-import com.svintsov.translator.util.LogbackDatabaseAppender;
+import com.svintsov.translator.logger.LogbackDatabaseAppender;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 import java.util.HashMap;

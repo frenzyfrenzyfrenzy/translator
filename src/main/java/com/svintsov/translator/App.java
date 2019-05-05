@@ -3,10 +3,11 @@ package com.svintsov.translator;
 import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.LoggerContext;
 import com.svintsov.translator.service.Database;
-import com.svintsov.translator.service.LoggerFilter;
-import com.svintsov.translator.service.Validator;
-import com.svintsov.translator.service.ValidatorFilter;
-import com.svintsov.translator.util.LogbackDatabaseAppender;
+import com.svintsov.translator.logger.LoggerFilter;
+import com.svintsov.translator.service.Yandex;
+import com.svintsov.translator.validator.Validator;
+import com.svintsov.translator.validator.ValidatorFilter;
+import com.svintsov.translator.logger.LogbackDatabaseAppender;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -78,4 +79,9 @@ public class App implements WebMvcConfigurer {
         return new Database(namedParameterJdbcTemplate);
     }
 
+    @Bean
+    @Autowired
+    Yandex yandex (TranslatorProperties translatorProperties) {
+        return new Yandex(translatorProperties);
+    }
 }

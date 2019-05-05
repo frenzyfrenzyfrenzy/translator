@@ -1,5 +1,6 @@
 translator:
-  yandexApiUrl: https://translate.yandex.net/api/v1.5/
+  yandexApiUrl: https://translate.yandex.net/
+  yandexApiKey: trnsl.1.1.20190504T121819Z.8fa10e1944ebc292.1dbeabeff36c3e6270bcf555fc737c3cd1f11629
   requestSchema: /schema/translateRequest.json
   responseSchema: /schema/translateResponse.json
 

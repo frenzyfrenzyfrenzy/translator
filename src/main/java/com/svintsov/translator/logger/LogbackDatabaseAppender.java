@@ -1,4 +1,4 @@
-package com.svintsov.translator.util;
+package com.svintsov.translator.logger;
 
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.UnsynchronizedAppenderBase;

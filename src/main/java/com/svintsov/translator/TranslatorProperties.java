@@ -6,6 +6,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 public class TranslatorProperties {
 
     private String yandexApiUrl;
+    private String yandexApiKey;
 
     public String getYandexApiUrl() {
         return yandexApiUrl;
@@ -13,5 +14,13 @@ public class TranslatorProperties {
 
     public void setYandexApiUrl(String yandexApiUrl) {
         this.yandexApiUrl = yandexApiUrl;
+    }
+
+    public String getYandexApiKey() {
+        return yandexApiKey;
+    }
+
+    public void setYandexApiKey(String yandexApiKey) {
+        this.yandexApiKey = yandexApiKey;
     }
 }

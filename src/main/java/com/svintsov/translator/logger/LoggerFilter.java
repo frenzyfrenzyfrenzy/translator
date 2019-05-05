@@ -1,7 +1,6 @@
-package com.svintsov.translator.service;
+package com.svintsov.translator.logger;
 
 import com.svintsov.translator.util.CachingRequestWrapper;
-import com.svintsov.translator.util.LogbackDatabaseAppender;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,8 +1,8 @@
-package com.svintsov.translator.service;
+package com.svintsov.translator.validator;
 
 import com.svintsov.translator.util.CachingRequestWrapper;
 import com.svintsov.translator.util.JsonUtils;
-import com.svintsov.translator.util.LogbackDatabaseAppender;
+import com.svintsov.translator.logger.LogbackDatabaseAppender;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

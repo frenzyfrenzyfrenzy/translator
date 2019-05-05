@@ -1,4 +1,4 @@
-package com.svintsov.translator.service;
+package com.svintsov.translator.validator;
 
 import org.everit.json.schema.Schema;
 import org.everit.json.schema.ValidationException;
