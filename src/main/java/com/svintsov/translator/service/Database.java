@@ -4,7 +4,6 @@ import ch.qos.logback.classic.spi.ILoggingEvent;
 import com.svintsov.translator.logger.LogbackDatabaseAppender;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
-import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 

@@ -1,8 +1,10 @@
 package com.svintsov.translator.rest;
 
+import com.svintsov.translator.logger.LogbackDatabaseAppender;
 import com.svintsov.translator.rest.model.TranslateRequest;
 import com.svintsov.translator.rest.model.TranslateResponse;
 import com.svintsov.translator.service.Yandex;
+import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -29,6 +31,7 @@ public class TranslatorController {
     public TranslateResponse handleBadRequest(HttpServletRequest request, Exception exception) {
         TranslateResponse translateResponse = new TranslateResponse();
         translateResponse.setError(exception.getMessage());
-        return new TranslateResponse();
+        MDC.put(LogbackDatabaseAppender.ERROR, exception.getMessage());
+        return translateResponse;
     }
 }
