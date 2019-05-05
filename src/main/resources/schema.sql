@@ -1,0 +1,1 @@
+CREATE TABLE IF NOT EXISTS requests (request varchar(1023), response varchar(1023), target varchar(255), ip varchar(255), request_time timestamp )
