@@ -1,5 +1,7 @@
 package com.svintsov.translator.validator;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.svintsov.translator.rest.model.TranslateResponse;
 import com.svintsov.translator.util.CachingRequestWrapper;
 import com.svintsov.translator.util.JsonUtils;
 import com.svintsov.translator.logger.LogbackDatabaseAppender;
@@ -17,6 +19,7 @@ import java.util.List;
 public class ValidatorFilter implements Filter {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ValidatorFilter.class);
+    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
     private Validator validator;
 
@@ -36,7 +39,10 @@ public class ValidatorFilter implements Filter {
             String validationErrorsString = JsonUtils.silentToJsonString(validationErrors);
             MDC.put(LogbackDatabaseAppender.ERROR, validationErrorsString);
             LOGGER.error("VALIDATION ERRORS: {}", validationErrorsString);
-            ((HttpServletResponse)response).sendError(400, JsonUtils.silentToJsonString(validationErrors));
+
+            TranslateResponse errorTranslateResponse = new TranslateResponse();
+            errorTranslateResponse.setError(validationErrorsString);
+            response.getOutputStream().print(OBJECT_MAPPER.writeValueAsString(errorTranslateResponse));
         }
     }
 

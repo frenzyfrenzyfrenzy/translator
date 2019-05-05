@@ -6,8 +6,10 @@
   "type": "object",
   "properties": {
     "text": {
-      "type": "String"
+      "type": "string"
+    },
+    "error": {
+      "type": "string"
     }
-  },
-  "required": [ "text" ]
+  }
 }

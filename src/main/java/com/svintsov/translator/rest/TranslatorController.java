@@ -5,10 +5,9 @@ import com.svintsov.translator.rest.model.TranslateResponse;
 import com.svintsov.translator.service.Yandex;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
 
 @Controller
 public class TranslatorController {
@@ -25,4 +24,11 @@ public class TranslatorController {
         return translateResponse;
     }
 
+    @ExceptionHandler(RuntimeException.class)
+    @ResponseBody
+    public TranslateResponse handleBadRequest(HttpServletRequest request, Exception exception) {
+        TranslateResponse translateResponse = new TranslateResponse();
+        translateResponse.setError(exception.getMessage());
+        return new TranslateResponse();
+    }
 }

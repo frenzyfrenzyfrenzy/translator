@@ -29,7 +29,7 @@ public class LoggerFilter implements Filter {
 
         chain.doFilter(requestWrapper, responseWrapper);
 
-        String responseString = new String(((ContentCachingResponseWrapper) responseWrapper).getContentAsByteArray());
+        String responseString = new String(((ContentCachingResponseWrapper) responseWrapper).getContentAsByteArray(), "UTF-8");
         ((ContentCachingResponseWrapper) responseWrapper).copyBodyToResponse();
         MDC.put(LogbackDatabaseAppender.RESPONSE, responseString);
         MDC.put(LogbackDatabaseAppender.TO_DATABASE, "TRUE");
