@@ -1,8 +1,7 @@
 package com.svintsov.translator.service;
 
 import com.svintsov.translator.TranslatorProperties;
-import com.svintsov.translator.logger.LogbackDatabaseAppender;
-import org.slf4j.MDC;
+import com.svintsov.translator.util.TranslatorCriticalException;
 import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.Retrofit;
@@ -29,14 +28,18 @@ public class Yandex {
         Call<YandexTranslateResponse> call =
                 yandexApi.translate(translatorProperties.getYandexApiKey(), text, String.format("%s-%s", from, to));
 
-        Response<YandexTranslateResponse> response = null;
+        Response<YandexTranslateResponse> response;
         try {
             response = call.execute();
         } catch (IOException e) {
-            MDC.put(LogbackDatabaseAppender.ERROR, e.getMessage());
-            return null;
+            throw new TranslatorCriticalException(e.getMessage());
         }
 
-        return response.body().getText().get(0);
+        if ((response.body() == null) ||
+                (response.body().getText() == null) ||
+                (response.body().getText().isEmpty()) ||
+                (response.body().getCode() != 200))
+            throw new TranslatorCriticalException("Ошибка получения ответа от API Yandex");
+        else return response.body().getText().get(0);
     }
 }
