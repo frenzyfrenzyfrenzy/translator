@@ -4,6 +4,8 @@ import com.svintsov.translator.TranslatorProperties;
 import com.svintsov.translator.util.TranslatorCriticalException;
 import io.reactivex.Flowable;
 import io.reactivex.schedulers.Schedulers;
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import retrofit2.Retrofit;
@@ -20,7 +22,15 @@ public class YandexService {
     public YandexService(TranslatorProperties translatorProperties) {
         this.translatorProperties = translatorProperties;
 
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+
+        OkHttpClient client = new OkHttpClient.Builder()
+                .addInterceptor(interceptor)
+                .build();
+
         Retrofit retrofit = new Retrofit.Builder()
+                .client(client)
                 .baseUrl(translatorProperties.getYandexApiUrl())
                 .addConverterFactory(JacksonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
