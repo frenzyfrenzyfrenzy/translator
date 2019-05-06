@@ -1,5 +1,6 @@
 package com.svintsov.translator.service;
 
+import com.svintsov.translator.model.YandexTranslateResponse;
 import io.reactivex.Flowable;
 import retrofit2.Response;
 import retrofit2.http.POST;

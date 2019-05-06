@@ -1,6 +1,7 @@
 package com.svintsov.translator.service;
 
 import com.svintsov.translator.TranslatorProperties;
+import com.svintsov.translator.util.TranslatorCriticalException;
 import io.reactivex.Flowable;
 import io.reactivex.schedulers.Schedulers;
 import org.slf4j.Logger;
@@ -28,30 +29,24 @@ public class Yandex {
     }
 
     public String translate(String text, String from, String to) {
-
         String[] words = text.trim().split("\\s");
-        Flowable
+        String translated = Flowable
                 .fromArray(words)
-                .flatMap(word -> yandexApi.translate(translatorProperties.getYandexApiKey(), word, String.format("%s-%s", from, to)))
-                .observeOn(Schedulers.computation())
-                .blockingSubscribe(
-                        yandexTranslateResponse -> LOGGER.info("RESPONSE FROM FLOWABLE: {}", yandexTranslateResponse.body().getText().get(0)),
-                        throwable -> throwable.printStackTrace()
-                );
-
-//        Response<YandexTranslateResponse> response;
-//        try {
-//            response = flowable.execute();
-//        } catch (IOException e) {
-//            throw new TranslatorCriticalException(e.getMessage());
-//        }
-//
-//        if ((response.body() == null) ||
-//                (response.body().getText() == null) ||
-//                (response.body().getText().isEmpty()) ||
-//                (response.body().getCode() != 200))
-//            throw new TranslatorCriticalException("Ошибка получения ответа от API Yandex");
-//        else return response.body().getText().get(0);
-        return "STUB...";
+                .concatMap(word ->
+                        yandexApi.translate(translatorProperties.getYandexApiKey(), word, String.format("%s-%s", from, to))
+                                .subscribeOn(Schedulers.computation())
+                                .map(yandexTranslateResponse -> {
+                                    if ((yandexTranslateResponse.body() == null) ||
+                                            (yandexTranslateResponse.body().getText() == null) ||
+                                            (yandexTranslateResponse.body().getText().isEmpty()) ||
+                                            (yandexTranslateResponse.body().getCode() != 200))
+                                        throw new TranslatorCriticalException("Ошибка получения ответа от API Yandex");
+                                    return yandexTranslateResponse.body().getText().get(0);
+                                })
+                )
+                .reduce((first, second) -> first.concat(" ").concat(second))
+                .blockingGet();
+        LOGGER.info("TRANSLATE COMPLETED: {}", translated);
+        return translated;
     }
 }

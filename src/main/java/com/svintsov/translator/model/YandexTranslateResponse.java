@@ -1,4 +1,4 @@
-package com.svintsov.translator.service;
+package com.svintsov.translator.model;
 
 import java.util.HashMap;
 import java.util.List;
