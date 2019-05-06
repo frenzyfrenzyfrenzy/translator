@@ -10,14 +10,14 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.jackson.JacksonConverterFactory;
 
-public class Yandex {
+public class YandexService {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(Yandex.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(YandexService.class);
 
     private TranslatorProperties translatorProperties;
     private YandexApi yandexApi;
 
-    public Yandex(TranslatorProperties translatorProperties) {
+    public YandexService(TranslatorProperties translatorProperties) {
         this.translatorProperties = translatorProperties;
 
         Retrofit retrofit = new Retrofit.Builder()
@@ -40,7 +40,7 @@ public class Yandex {
                                             (yandexTranslateResponse.body().getText() == null) ||
                                             (yandexTranslateResponse.body().getText().isEmpty()) ||
                                             (yandexTranslateResponse.body().getCode() != 200))
-                                        throw new TranslatorCriticalException("Ошибка получения ответа от API Yandex");
+                                        throw new TranslatorCriticalException("Ошибка получения ответа от API YandexService");
                                     return yandexTranslateResponse.body().getText().get(0);
                                 })
                 )

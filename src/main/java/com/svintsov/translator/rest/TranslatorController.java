@@ -3,7 +3,7 @@ package com.svintsov.translator.rest;
 import com.svintsov.translator.logger.LogbackDatabaseAppender;
 import com.svintsov.translator.rest.model.TranslateRequest;
 import com.svintsov.translator.rest.model.TranslateResponse;
-import com.svintsov.translator.service.Yandex;
+import com.svintsov.translator.service.YandexService;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,13 +15,13 @@ import javax.servlet.http.HttpServletRequest;
 public class TranslatorController {
 
     @Autowired
-    Yandex yandex;
+    YandexService yandexService;
 
     @ResponseBody
     @RequestMapping(path = "/translate", method = RequestMethod.POST)
     public TranslateResponse translate(@RequestBody TranslateRequest translateRequest) {
         TranslateResponse translateResponse = new TranslateResponse();
-        String translatedText = yandex.translate(translateRequest.getText(), translateRequest.getFrom(), translateRequest.getTo());
+        String translatedText = yandexService.translate(translateRequest.getText(), translateRequest.getFrom(), translateRequest.getTo());
         translateResponse.setText(translatedText);
         return translateResponse;
     }

@@ -4,7 +4,7 @@ import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.LoggerContext;
 import com.svintsov.translator.service.Database;
 import com.svintsov.translator.logger.LoggerFilter;
-import com.svintsov.translator.service.Yandex;
+import com.svintsov.translator.service.YandexService;
 import com.svintsov.translator.validator.Validator;
 import com.svintsov.translator.validator.ValidatorFilter;
 import com.svintsov.translator.logger.LogbackDatabaseAppender;
@@ -81,7 +81,7 @@ public class App implements WebMvcConfigurer {
 
     @Bean
     @Autowired
-    Yandex yandex (TranslatorProperties translatorProperties) {
-        return new Yandex(translatorProperties);
+    YandexService yandex (TranslatorProperties translatorProperties) {
+        return new YandexService(translatorProperties);
     }
 }
